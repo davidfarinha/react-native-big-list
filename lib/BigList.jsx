@@ -1023,6 +1023,11 @@ class BigList extends PureComponent {
       this.getBaseStyle(),
     );
 
+    // [28/04/22]: Turns out this was teh reason that big-list couldn't work with pangesturehandler, despite simultaneousHandlers=[] being defined both on this internal RNGH scrollview, and the pan gesture handler.
+    // Even still, the pan gesture handler would only work stranegly for the first item in the big-list, and not any others (pan gesture handler would fail and call onFail instead of onActive). But strangely again,
+    // if we return 'scrollView' as below without the outer View, pan gesture handler works with ALL list items. So leaving this hack/fix in for now.
+    return scrollView;
+
     return (
       <View style={scrollStyle}>
         {scrollView}
